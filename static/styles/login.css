@@ -1,0 +1,13 @@
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10%;
+}
+
+.btn btn-primary {
+    width: 160px;
+    height: 28px;
+    background-color: #579DF8;
+}
