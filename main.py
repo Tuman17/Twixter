@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, current_user, login_required
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from data.db_session import create_session, global_init
@@ -16,6 +16,8 @@ login_manager.init_app(app)
 @app.route('/')
 @app.route('/main')
 def main():
+    if current_user.is_authenticated:
+        return render_template('header.html', title=current_user.username)
     return render_template('header.html', title="Twixter - Главная")
 
 
@@ -62,6 +64,12 @@ def login():
 def load_user(user_id):
     session = create_session()
     return session.query(User).get(user_id)
+
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', title='Профиль')
 
 
 if __name__ == '__main__':

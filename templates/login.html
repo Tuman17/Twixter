@@ -4,16 +4,17 @@
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/login.css') }}">
     <form class="login-form" action="" method="post">
         <h1>Авторизация</h1>
-        <p>
-            {{ form.email.label }}<br>
+        <div class="login-div">
+            {{ form.email.label (class="form-label")}}<br>
             {{ form.email(class="form-control", type="email") }}<br>
-        </p>
-        <p>
-            {{ form.password.label }}<br>
+        </div>
+        <div class="login-div">
+            {{ form.password.label (class="form-label")}}<br>
             {{ form.password(class="form-control", type="password") }}<br>
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <div class="remember-label">{{ form.remember_me() }} {{ form.remember_me.label}}</div>
+        </div>
+        {{ form.submit(type="submit", class="btn-primary") }}
         <div>{{ message }}</div>
+        <a href="/register" class="link">Зарегистрироваться</a>
     </form>
 {% endblock %}

@@ -6,19 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {{title}} </title>
     <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/header.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body>
     <header class="header">
-        <div><img src="{{ url_for('static',filename='icons/Logo.svg') }}"></div>
+        <a href="/"><img src="{{ url_for('static',filename='icons/Logo.svg') }}" alt="Twixter"></a>
         <ul class="menu">
-            <li><a href="#">Главная</a></li>
+            <li><a href="/">Главная</a></li>
             <li><a href="#">Подписки</a></li>
-            <li><a href="#">Профиль</a></li>
+            <li><a href="/profile">Профиль</a></li>
         </ul>
         <input class="search-input" type="text" placeholder="Поиск">
         {% if current_user.is_authenticated %}
-            <a href="/profile">{{ current_user.username }}</a>
+            <a href="/profile" class="profile"><img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>{{current_user.username}}</a>
         {% else %}
             <form method="post" action="/login"><button class="login-btn">Войти</button></form>
         {% endif %}

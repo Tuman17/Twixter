@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #EFF2F9;
     margin: 0;
     padding: 0;
 }
@@ -9,7 +10,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-    background-color: #f0f0f0;
+    background-color: white;
+    border: 4px black
 }
 
 header img {
@@ -39,12 +41,14 @@ header img {
 .search-input {
     padding: 5px;
     border-radius: 20px;
+    background-color: F7F8FC;
     width: 660px;
     height: 30px;
 }
 
 input::placeholder {
     font-size: 14px;
+    color: C8CCCF;
 }
 
 .login-btn {
@@ -62,4 +66,22 @@ input::placeholder {
 .login-btn:hover {
     background-color: #579DF8;
     color: #2E2E2E;
+}
+
+.profile {
+    display: flex;
+    margin-right: 64px;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+}
+
+.profile img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 18px;
 }

@@ -2,26 +2,26 @@
 
 {% block content %}
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/login.css') }}">
-<form class="login-form" action="" method="post">
+<form class="register-form" action="" method="post">
     <h1>Регистрация</h1>
-    <p>
-        {{ form.name.label }}<br>
+    <div class="login-div">
+        {{ form.name.label (class="form-label")}}<br>
         {{ form.name(class="form-control") }}<br>
-    </p>
-    <p>
-        {{ form.email.label }}<br>
+    </div>
+    <div class="login-div">
+        {{ form.email.label (class="form-label")}}<br>
         {{ form.email(class="form-control", type="email") }}<br>
-    </p>
-    <p>
-        {{ form.password.label }}<br>
+    </div>
+    <div class="login-div">
+        {{ form.password.label (class="form-label")}}<br>
         {{ form.password(class="form-control", type="password") }}<br>
-    </p>
-    <p>
-        {{ form.password_again.label }}<br>
+    </div>
+    <div class="login-div">
+        {{ form.password_again.label (class="form-label")}}<br>
         {{ form.password_again(class="form-control", type="password") }}<br>
-    </p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </div>
+    {{ form.submit(type="submit", class="btn-primary") }}
     <div>{{message}}</div>
-    <a href="/login">Уже есть аккаунт?</a>
+    <a href="/login" class="link">Уже есть аккаунт?</a>
 </form>
 {% endblock %}
