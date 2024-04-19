@@ -2,23 +2,13 @@
 
 {% block content %}
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/login.css') }}">
-<form class="register-form" action="" method="post">
+<form class="login-form" action="" method="post">
     <h1>Регистрация</h1>
     <div class="login-div">
-        {{ form.name.label (class="form-label")}}<br>
-        {{ form.name(class="form-control") }}<br>
-    </div>
-    <div class="login-div">
-        {{ form.email.label (class="form-label")}}<br>
-        {{ form.email(class="form-control", type="email") }}<br>
-    </div>
-    <div class="login-div">
-        {{ form.password.label (class="form-label")}}<br>
-        {{ form.password(class="form-control", type="password") }}<br>
-    </div>
-    <div class="login-div">
-        {{ form.password_again.label (class="form-label")}}<br>
-        {{ form.password_again(class="form-control", type="password") }}<br>
+        {{ form.name(class="form-control", placeholder="Логин") }}
+        {{ form.email(class="form-control", type="email", placeholder="Почта") }}
+        {{ form.password(class="form-control", type="password", placeholder="Пароль") }}
+        {{ form.password_again(class="form-control", type="password", placeholder="Повторите пароль") }}
     </div>
     {{ form.submit(type="submit", class="btn-primary") }}
     <div>{{message}}</div>

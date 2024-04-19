@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_user, current_user, login_required
+from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from data.db_session import create_session, global_init
@@ -16,8 +16,6 @@ login_manager.init_app(app)
 @app.route('/')
 @app.route('/main')
 def main():
-    if current_user.is_authenticated:
-        return render_template('header.html', title=current_user.username)
     return render_template('header.html', title="Twixter - Главная")
 
 
@@ -34,11 +32,10 @@ def reqister():
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
-        user = User(
-            username=form.name.data,
-            email=form.email.data,
-            hashed_password=form.password.data
-        )
+        user = User()
+        user.username = form.name.data
+        user.email = form.email.data
+        user.set_password(form.password.data)
         session.add(user)
         session.commit()
         return redirect('/login')
@@ -51,7 +48,7 @@ def login():
     if form.submit.data:
         session = create_session()
         user = session.query(User).filter(User.email == form.email.data).first()
-        if user and (user.hashed_password == form.password.data):
+        if user and (user.check_password(form.password.data)):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
         return render_template('login.html',
@@ -70,6 +67,33 @@ def load_user(user_id):
 @login_required
 def profile():
     return render_template('profile.html', title='Профиль')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
+@app.route('/rename', methods=['GET', 'POST'])
+def rename():
+    form = RegisterForm()
+    if form.submit.data:
+        if form.password.data != form.password_again.data:
+            return render_template('rename.html', title='Настройки профиля',
+                                   form=form, message='Пароли не совпадают')
+        session = create_session()
+        if form.email.data != current_user.email and session.query(User).filter(User.email == form.email.data).first():
+            return render_template('rename.html', title='Настройки профиля',
+                                   form=form, message='Пользователь с такой почтой уже существует')
+        user = session.query(User).filter(User.username == current_user.username).first()
+        user.username = form.name.data
+        user.email = form.name.data
+        user.set_password(form.password.data)
+        session.commit()
+        return redirect('/profile')
+    return render_template('rename.html', title='Настройки профиля', form=form)
 
 
 if __name__ == '__main__':

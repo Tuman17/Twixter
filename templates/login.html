@@ -5,12 +5,8 @@
     <form class="login-form" action="" method="post">
         <h1>Авторизация</h1>
         <div class="login-div">
-            {{ form.email.label (class="form-label")}}<br>
-            {{ form.email(class="form-control", type="email") }}<br>
-        </div>
-        <div class="login-div">
-            {{ form.password.label (class="form-label")}}<br>
-            {{ form.password(class="form-control", type="password") }}<br>
+            {{ form.email(class="form-control", type="email", placeholder="Почта") }}
+            {{ form.password(class="form-control", type="password", placeholder="Пароль") }}
             <div class="remember-label">{{ form.remember_me() }} {{ form.remember_me.label}}</div>
         </div>
         {{ form.submit(type="submit", class="btn-primary") }}

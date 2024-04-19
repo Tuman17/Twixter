@@ -2,16 +2,16 @@
 
 {% block content %}
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/profile.css') }}">
-<form class="profile-form">
+<div class="profile-form">
     <div class="profile-icon">
         <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
-        <button>Выбрать изображение</button>
+        <input type="file" placeholder="Выбрать изображение" accept="image/png, image/jpeg">
     </div>
     <label>Имя: {{current_user.username}}</label>
     <label>Почта: {{current_user.email}}</label>
-    <button class="change-password">Сменить пароль</button>
+    <form action="/rename"><button class="change-password">Изменить данные</button></form>
     <label>Дата регистрации: {{current_user.register_time.strftime("%d-%m-%Y")}}</label>
-    <button class="logout">Выйти</button>
-</form>
+    <form action="/logout"><button class="logout">Выйти</button></form>
+</div>
 
 {% endblock %}

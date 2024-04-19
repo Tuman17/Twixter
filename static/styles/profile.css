@@ -17,8 +17,9 @@
 }
 
 .profile-icon {
+    display: flex;
     padding-top: 48px;
-    align-items: center
+    align-items: center;
 }
 .profile-icon img {
   display: inline-block;
@@ -28,21 +29,15 @@
   object-fit: cover;
 }
 
-.profile-icon button {
-    padding: 7px 15px;
+.profile-icon input {
     background-color: #2E2E2E;
     color: #579DF8;
-    border-radius: 40px;
-    font-size: 18px;
+    border-radius: 12px;
+    font-size: 12px;
     cursor: pointer;
-    height: 56px;
-    width: 140px;
-    margin-right: 35px;
-}
-
-.profile-icon button:hover {
-    background-color: #579DF8;
-    color: #2E2E2E;
+    height: 46px;
+    width: 120px;
+    margin-left: 18px;
 }
 
 .change-password {
