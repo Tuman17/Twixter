@@ -4,8 +4,15 @@
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/profile.css') }}">
 <div class="profile-form">
     <div class="profile-icon">
-        <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
-        <input type="file" placeholder="Выбрать изображение" accept="image/png, image/jpeg">
+        {% if current_user.avatar == '0' %}
+            <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
+        {% else %}
+            <img src="{{url_for('static',filename=''.join(['icons/avatars/', current_user.id|string, current_user.avatar]))}}"/>
+        {% endif %}
+        <form method="POST" action="/save_image" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <input type="submit" value="Upload">
+        </form>
     </div>
     <label>Имя: {{current_user.username}}</label>
     <label>Почта: {{current_user.email}}</label>

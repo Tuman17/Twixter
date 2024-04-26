@@ -29,10 +29,7 @@
   object-fit: cover;
 }
 
-.profile-icon input {
-    background-color: #2E2E2E;
-    color: #579DF8;
-    border-radius: 12px;
+.profile-icon form {
     font-size: 12px;
     cursor: pointer;
     height: 46px;

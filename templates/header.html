@@ -19,7 +19,13 @@
         </ul>
         <input class="search-input" type="text" placeholder="Поиск">
         {% if current_user.is_authenticated %}
-            <a href="/profile" class="profile"><img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>{{current_user.username}}</a>
+            <a href="/profile" class="profile">
+                {% if current_user.avatar == '0' %}
+                    <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
+                {% else %}
+                    <img src="{{url_for('static',filename=''.join(['icons/avatars/', current_user.id|string, current_user.avatar]))}}"/>
+                {% endif %}
+                {{current_user.username}}</a>
         {% else %}
             <form method="post" action="/login"><button class="login-btn">Войти</button></form>
         {% endif %}

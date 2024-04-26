@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from data.db_session import create_session, global_init
 from data.users import User
-import os
+import os, glob
 
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ def reqister():
                                    form=form,
                                    message="Пароли не совпадают")
         session = create_session()
-        if session.query(User).filter(User.email == form.email.data).first():
+        if (session.query(User).filter(User.email == form.email.data).first()) or (session.query(User).filter(User.email == form.email.data).first()):
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -47,7 +47,7 @@ def login():
     form = LoginForm()
     if form.submit.data:
         session = create_session()
-        user = session.query(User).filter(User.email == form.email.data).first()
+        user = session.query(User).filter(User.username == form.login.data).first()
         if user and (user.check_password(form.password.data)):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
@@ -66,6 +66,23 @@ def load_user(user_id):
 @app.route('/profile')
 @login_required
 def profile():
+    return render_template('profile.html', title='Профиль')
+
+
+@app.route("/save_image", methods=["POST"])
+def save_image():
+    session = create_session()
+    image = request.files['image']
+    if image:
+        for file in glob.glob(f'static/icons/avatars/{str(current_user.id)}.*'):
+            print(file)
+            os.remove(file)
+        print(glob.glob(f'static/icons/avatars/{str(current_user.id)}.*'))
+        image.save(os.path.join("static/icons/avatars", str(current_user.id) + image.filename[-4:]))
+        user = session.query(User).filter(User.id == current_user.id).first()
+        user.avatar = image.filename[-4:]
+        session.commit()
+        current_user.avatar = image.filename[-4:]
     return render_template('profile.html', title='Профиль')
 
 
