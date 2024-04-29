@@ -14,8 +14,12 @@
         <a href="/"><img src="{{ url_for('static',filename='icons/Logo.svg') }}" alt="Twixter"></a>
         <ul class="menu">
             <li><a href="/">Главная</a></li>
-            <li><a href="#">Подписки</a></li>
-            <li><a href="/profile">Профиль</a></li>
+            <li><a href="/">Подписки</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="/profile">Профиль</a></li>
+            {% else %}
+                <li><a href="/login">Профиль</a></li>
+            {% endif %}
         </ul>
         <input class="search-input" type="text" placeholder="Поиск">
         {% if current_user.is_authenticated %}

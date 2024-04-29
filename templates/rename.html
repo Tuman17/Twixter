@@ -1,31 +1,44 @@
 {% extends "header.html" %}
 
 {% block content %}
-
 <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/rename.css') }}">
-    <form class="login-form" action="" method="post">
-        <div class="profile-icon">
+<div class="login-form">
+    <div class="profile-icon">
+        {% if current_user.avatar == '0' %}
             <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
-            <input type="file" placeholder="Выбрать изображение" accept="image/png, image/jpeg">
+        {% else %}
+            <img src="{{url_for('static',filename=''.join(['icons/avatars/', current_user.id|string, current_user.avatar]))}}"/>
+        {% endif %}
+        <form method="post" action="/save_avatar" enctype="multipart/form-data" id="upload-form">
+            <input type="file" accept=".png, .jpg, .jpeg" id="upload-file" name="avatar" style="display: none;">
+            <label for="upload-file">Выбрать файл</label>
+        </form>
+    </div>
+    <div class="login-div">
+        <form action="" method="post" class="login-div">
+            {{ form.csrf_token }}
+            {{ form.name(class="form-control", placeholder="Логин") }}
+            {{ form.email(class="form-control", type="email", placeholder="Почта") }}
+            {{ form.password(class="form-control", type="password", placeholder="Пароль") }}
+            {{ form.password_again(class="form-control", type="password", placeholder="Повторите пароль") }}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <label class="mess">{{ message }}</label>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {{ form.submit(type="submit", class="btn-primary", value="Сохранить") }}
+        </form>
+        <form action="/profile"><button class="btn-primary">Назад</button></form>
         </div>
-        <div class="login-div">
-            <label>Имя: </label>
-            {{ form.name(class="form-control", value="{{current_user.username}}") }}
-        </div>
-        <div class="login-div">
-            <label>Почта: </label>
-            {{ form.email(class="form-control", type="email", value="{{current_user.email}}") }}
-        </div>
-        <div class="login-div">
-            <label>Пароль: </label>
-            {{ form.password(class="form-control", type="password") }}
-        </div>
-        <div class="login-div">
-            <label>Повторите пароль: </label>
-            {{ form.password_again(class="form-control", type="password") }}
-        </div>
-        {{ form.submit(type="submit", class="btn-primary") }}
-        <div>{{ message }}</div>
-    </form>
+</div>
 
+<script type="text/javascript">
+document.getElementById('upload-file').addEventListener('change', function() {
+    if (this.files.length > 0) {
+        document.getElementById('upload-form').submit();
+    }
+});
+</script>
 {% endblock %}

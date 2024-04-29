@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "header.html" %}
 
-</body>
-</html>
+{% block content %}
+<link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+{% for post in posts%}
+<div class="post-div">
+    <div class="profile-icon">
+        {% if post.user.avatar == '0' %}
+            <img src="{{url_for('static',filename='icons/basic_profile.png')}}"/>
+        {% else %}
+            <img src="{{url_for('static',filename=''.join(['icons/avatars/', post.user.id|string, post.user.avatar]))}}"/>
+        {% endif %}
+        <label>{{post.user.username}}</label>
+    </div>
+    <h2>{{post.title}}</h2>
+    {% if post.image != '0' %}
+        <img class="post-image" src="{{url_for('static',filename=''.join(['icons/posts/', post.id|string, post.image]))}}"/>
+    {% endif %}
+    <p class="post-content">{{post.content}}</p><br>
+    <p class="date">{{post.created_date.strftime("%d %B %Y")}}</p>
+    {% if current_user.id == post.user_id %}
+        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+            <input class="del-btn" type="submit" value="Удалить">
+        </form>
+    {% endif %}
+</div>
+{% endfor %}
+<h1 id="no-posts-found" style="display: none" class="not-found">Таких постов не найдено</h1>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.querySelector('.search-input');
+    const noPostsFoundMessage = document.getElementById('no-posts-found');
+
+    searchInput.addEventListener("input", function() {
+        const query = this.value.toLowerCase();
+        const posts = document.querySelectorAll('.post-div');
+        let visiblePosts = 0;
+
+        posts.forEach(post => {
+            const title = post.querySelector('h2').textContent.toLowerCase();
+            if (title.includes(query)) {
+                post.style.display = '';
+                visiblePosts++;
+            } else {
+                post.style.display = 'none';
+            }
+        });
+
+        if (visiblePosts === 0) {
+            noPostsFoundMessage.style.display = '';
+        } else {
+            noPostsFoundMessage.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

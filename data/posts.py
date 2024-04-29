@@ -8,7 +8,8 @@ class Posts(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String)
-    content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    content = sqlalchemy.Column(sqlalchemy.String)
+    image = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=0)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now())
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = sqlalchemy.orm.relationship('User')
