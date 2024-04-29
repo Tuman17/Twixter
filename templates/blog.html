@@ -1,0 +1,16 @@
+{% extends "header.html" %}
+
+{% block content %}
+<link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/blog.css') }}">
+<div class="blog-div">
+    <form class="create-blog" action="/create_blog" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <h1>Создание записи</h1>
+        {{ form.title(class="title", placeholder="Название") }}
+        {{ form.content(class="blog-content", placeholder="Содержание") }}
+        <input type="file" accept=".png, .jpg, .jpeg" id="upload-file" name="image" style="display: none;">
+        <label for="upload-file">Выбрать изображение</label>
+        {{ form.submit(class="btn-primary", type="submit") }}
+    </form>
+</div>
+{% endblock %}
