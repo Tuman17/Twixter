@@ -157,4 +157,6 @@ def delete_post(post_id):
 
 if __name__ == '__main__':
     global_init("database.db")
-    app.run("127.0.0.1", 8080)
+    if __name__ == '__main__':
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host='0.0.0.0', port=port)
