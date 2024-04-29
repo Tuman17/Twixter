@@ -20,6 +20,8 @@ login_manager.init_app(app)
 def main():
     session = create_session()
     posts = session.query(Posts).all()
+    if posts:
+        posts.reverse()
     return render_template('main.html', title="Twixter - Главная", posts=posts)
 
 
@@ -138,10 +140,12 @@ def create_blog():
             for file in glob(f'static/icons/posts/{str(current_user.id)}.*'):
                 os.remove(file)
             post.image = image.filename[-4:]
-        session.add(post)
-        session.commit()
-        if post.image:
+            session.add(post)
+            session.commit()
             image.save(os.path.join("static/icons/posts/", str(post.id) + image.filename[-4:]))
+        else:
+            session.add(post)
+            session.commit()
         return redirect('/')
     return render_template('blog.html', title='Создать запись', form=form)
 
